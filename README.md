@@ -8,7 +8,7 @@ First you need to install [Python](https://www.python.org/downloads/) on your ma
 You also have to install flask microframework:
 
 ```
-  $  pip install flask
+$  pip install flask
 ```
 
 # Run the Project
