@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<title>Dashboard</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel=stylesheet type=text/css href="{{ url_for('admin.static', filename='css/w3.css') }}">
+<link rel=stylesheet type=text/css href="{{ url_for('admin.static', filename='css/main.css') }}">
+<link rel="stylesheet" type=text/css href="{{ url_for('admin.static', filename='css/style.css') }}">
+<link rel="stylesheet" type=text/css href="{{ url_for('admin.static', filename='js/Trumbowyg/dist/ui/trumbowyg.min.css') }}">
+<body class="w3-light-grey">
+
+<!-- Top container -->
+<div class="w3-container w3-top w3-black w3-large w3-padding" style="z-index:4">
+  <button class="w3-button w3-hide-large w3-padding-0 w3-black w3-hover-none w3-hover-text-light-grey" onclick="w3_open();"><i class="fa fa-bars"></i>  Menu</button>
+  <span class="w3-left"><b><i>HelloPress</i></b></span>
+  <span class="w3-right w3-hover-text-blue"><a href="{{ url_for('admin.logout') }}"><i class="mbri-logout"></i>&nbsp;Logout</a></span>
+</div>
+
+<!-- Sidenav/menu -->
+<nav class="w3-sidenav w3-collapse w3-blue-grey w3-text-white w3-animate-left" style="z-index:3;width:250px;font-size:16px;" id="mySidenav"><br>
+  <div class="w3-container w3-row">
+    <div class="w3-col s4">
+      <img src="{{ url_for('admin.static', filename='images/avatar2.png') }}" class="w3-circle w3-margin-right" style="width:46px;margin-top:-10px;">
+    </div>
+    <div class="w3-col s8">
+      <span>Welcome, <strong>{{user}}</strong></span>
+    </div>
+  </div>
+  <hr>
+  <a href="{{ url_for('admin.admin_dash') }}" class="w3-padding {% if request.path == '/admin/' %}w3-blue{% endif %}"><i class="mbri-desktop"></i>  Dashboard</a>
+  <a href="{{ url_for('admin.admin_pages') }}" class="w3-padding {% if request.path == '/admin/pages' %}w3-blue{% endif %}"><i class="mbri-file"></i>  Pages</a>
+  <a href="{{ url_for('admin.admin_menu') }}" class="w3-padding {% if request.path == '/admin/menu' %}w3-blue{% endif %}"><i class="mbri-sites"></i>  Menu</a>
+  <a href="{{ url_for('admin.admin_media') }}" class="w3-padding {% if request.path == '/admin/media' %}w3-blue{% endif %}"><i class="mbri-photos"></i>  Media</a>
+  <a href="#" class="w3-padding w3-text-dark-grey w3-hover-blue-grey w3-hover-text-dark-grey"><i class="mbri-extension"></i>  Plugins</a>
+  <a href="#" class="w3-padding w3-text-dark-grey w3-hover-blue-grey w3-hover-text-dark-grey"><i class="mbri-website-theme"></i>  Themes</a>
+  <a href="{{ url_for('admin.admin_users') }}" class="w3-padding {% if request.path == '/admin/users' %}w3-blue{% endif %}"><i class="mbri-users"></i>  Users</a>
+  <a href="{{ url_for('admin.admin_settings') }}" class="w3-padding"><i class="mbri-setting3"></i>  Settings</a><br><br>
+  <a href="#" class="w3-padding-16 w3-hide-large w3-closenav w3-dark-grey w3-hover-black" onclick="w3_close()" title="close menu"><i class="mbri-close"></i>  Close Menu</a>
+</nav>
+
+
+<!-- Overlay effect when opening sidenav on small screens -->
+<div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
+
+<!-- !PAGE CONTENT! -->
+<div class="w3-main" style="margin-left:250px;margin-top:43px;">
+
+  {% block body %}{% endblock %}
+
+  <!-- End page content -->
+</div>
+<script src="{{ url_for('admin.static', filename='js/jquery-3.1.1.min.js') }}"></script>
+<script>window.jQuery || document.write('<script src="{{ url_for("admin.static", filename="js/jquery-3.1.1.min.js") }}"><\/script>')</script>
+<script src="{{ url_for('admin.static', filename='js/Trumbowyg/dist/trumbowyg.min.js') }}"></script>
+
+<script>
+// Get the Sidenav
+var mySidenav = document.getElementById("mySidenav");
+
+// Get the DIV with overlay effect
+var overlayBg = document.getElementById("myOverlay");
+
+// Toggle between showing and hiding the sidenav, and add overlay effect
+function w3_open() {
+    if (mySidenav.style.display === 'block') {
+        mySidenav.style.display = 'none';
+        overlayBg.style.display = "none";
+    } else {
+        mySidenav.style.display = 'block';
+        overlayBg.style.display = "block";
+    }
+}
+
+// Close the sidenav with the close button
+function w3_close() {
+    console.log("test");
+    mySidenav.style.display = "none";
+    overlayBg.style.display = "none";
+}
+</script>
+
+<script>
+$(document).ready(function(){
+ $('#content').trumbowyg();
+
+ var img = $('img#an-img');
+$("#editor").trumbowyg("openModalInsert", {
+    title: "A title for modal box",
+    fields: {
+        url: {
+            value: img.attr('src')
+        },
+        alt: {
+            label: 'Alt',
+            name: 'alt',
+            value: img.attr('alt')
+        },
+        example: {
+            // Missing label is replaced by the key of this object (here 'example')
+            // Missing name is the same
+            // When value is missing, value = ''
+        }
+    },
+    callback: function(values){
+        img.attr('src', values['url']);
+        img.attr('alt', values['alt']);
+
+        return true; // Return true if you have finished with this modal box
+        // If you do not return anything, you need manage yourself the closure of the modal box
+    }
+});
+
+});
+</script>
+
+</body>
+</html>

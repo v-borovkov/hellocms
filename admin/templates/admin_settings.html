@@ -1,0 +1,38 @@
+{% extends "admin_layout.html" %}
+
+{% block body %}
+
+  <!-- Header -->
+  <form method="POST" id="settings">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+  <header class="w3-container" style="padding-top:22px">
+    <div class="w3-row">
+      <div class="w3-threequarter">
+        <h5><b><i class="mbri-file"></i>Settings</b></h5>
+      </div>
+      <div class="w3-quarter">
+        <input type="submit" class="w3-btn w3-right w3-green w3-hover-light-green" value="&#xe959; Save"  style="font-weight:600;font-family:'MobiriseIcons' !important;">
+      </div>
+   </div>
+  </header>
+  </form>
+
+  <div class="w3-container">
+    <h5>Start Page:</h5>
+    <select class="w3-select" name="startpage" form="settings">
+      <option disabled selected="selected" value="{{current_startpage}}">{{current_startpage}}</option>
+      {% for title in page_name %}
+      <option value="{{title|replace(".json", "")}}">{{title|replace(".json", "")}}</option>
+      {% endfor %}
+    </select>
+    <h5>Theme:</h5>
+    <select class="w3-select" name="theme" form="settings">
+      <option disabled selected="selected" value="{{current_theme}}">{{current_theme}}</option>
+      {% for title in themes %}
+      <option value="{{title}}">{{title}}</option>
+      {% endfor %}
+    </select>
+  </div>
+  </form>
+
+{% endblock %}

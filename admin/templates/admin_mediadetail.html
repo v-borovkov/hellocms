@@ -1,0 +1,23 @@
+{% extends "admin_layout.html" %}
+
+{% block body %}
+
+  <!-- Header -->
+  <header class="w3-container" style="padding-top:22px">
+    <div class="w3-row">
+      <div class="w3-half">
+        <h5><b><i class="mbri-file"></i> Media</b></h5>
+      </div>
+      <div class="w3-half">
+          <a href="{{ url_for('admin.admin_media') }}" class="w3-btn w3-red w3-right w3-hover-deep-orange" ><span class="mbri-arrow-prev"></span> Back</a>
+      </div>
+    </div>
+  </header>
+
+  <div class="w3-container">
+    <h5>Uploaded file</h5>
+    <img src="{{name}}">
+  </div>
+  <hr>
+
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends "admin_layout.html" %}
+
+{% block body %}
+
+  <!-- Header -->
+  <form method="POST">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+  <header class="w3-container" style="padding-top:22px">
+    <div class="w3-row">
+      <div class="w3-threequarter">
+        <h5><b><i class="mbri-users"></i> {{username}}</b></h5>
+      </div>
+      <div class="w3-quarter">
+        <input type="submit" class="w3-btn w3-green w3-hover-light-green" value="&#xe959; Save"  style="font-weight:600;font-family:'MobiriseIcons' !important;">
+        <a href="{{ url_for('admin.admin_users') }}" class="w3-btn w3-red w3-hover-deep-orange" style="font-weight:600;font-family:'MobiriseIcons' !important;">&#xe904 Back</a>
+      </div>
+   </div>
+  </header>
+
+  <div class="w3-container">
+    <h5>Username</h5>
+    <input class="w3-input" type="text" name="username" value="{{username}}">
+    <h5>Password</h5>
+    <input class="w3-input" type="text" name="password" value="{{password}}">
+  </div>
+
+  </form>
+
+{% endblock %}

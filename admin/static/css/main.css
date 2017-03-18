@@ -1,0 +1,27 @@
+a {
+  text-decoration: none;
+}
+
+[class^="mbri-"], [class*=" mbri-"] {
+    vertical-align: sub;
+    font-size: 24px;
+}
+
+[type=submit] {
+    -webkit-appearance: inherit;
+}
+
+ul.w3-ul li {
+    border-bottom: none;
+}
+
+.trumbowyg-box .trumbowyg-editor {
+    margin: 0 auto;
+    background-color: white;
+}
+
+#trumbowyg-icons {
+    overflow: hidden;
+    visibility: hidden;
+    margin-top: 43px;
+}

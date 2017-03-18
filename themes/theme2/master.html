@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>{% block title %}{% endblock %}</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/w3.css') }}">
+</head>
+<body>
+
+<!-- Navbar -->
+<div class="w3-top">
+  <div class="w3-bar w3-red w3-card-2 w3-left-align w3-large">
+    <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-opennav w3-right w3-padding-large w3-hover-white w3-large w3-red" href="javascript:void(0);" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
+    <a href="{{ url_for('index') }}" class="w3-bar-item w3-button w3-padding-large w3-white"><b><i>HelloPress</i></b></a>
+    {% for title in menu %}
+    <a href="{{ url_for('render_content', page_name=title ) }}" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-text-white w3-hover-white">{{title}}</a>
+    {% endfor %}
+  </div>
+
+  <!-- Navbar on small screens -->
+  <div id="navDemo" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium w3-large">
+    <a href="{{ url_for('render_content', page_name=about ) }}" class="w3-bar-item w3-button w3-padding-large">About</a>
+    <a href="#" class="w3-bar-item w3-button w3-padding-large">Link 2</a>
+  </div>
+</div>
+{% block banner %}{% endblock %}
+{% block body %}{% endblock %}
+{% block footer %}{% endblock %}
+</body>
+</html>

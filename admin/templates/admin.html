@@ -1,0 +1,90 @@
+{% extends "admin_layout.html" %}
+
+{% block body %}
+
+  <!-- Header -->
+  <header class="w3-container" style="padding-top:22px">
+    <h5><b><i class="mbri-desktop"></i> My Dashboard</b></h5>
+  </header>
+
+  <div class="w3-row-padding w3-margin-bottom">
+    <div class="w3-quarter">
+      <a href="{{ url_for('admin.admin_pages') }}">
+      <div class="w3-container w3-red w3-padding-16">
+        <div class="w3-left"><i class="mbri-file w3-xxxlarge"></i></div>
+        <div class="w3-right">
+          <h3>{{num_page}}</h3>
+        </div>
+        <div class="w3-clear"></div>
+        <h4>Pages</h4>
+      </div>
+    </a>
+    </div>
+    <div class="w3-quarter">
+      <a href="{{ url_for('admin.admin_users') }}">
+        <div class="w3-container w3-blue w3-padding-16">
+          <div class="w3-left"><i class="mbri-users w3-xxxlarge"></i></div>
+          <div class="w3-right">
+            <h3>{{num_users}}</h3>
+          </div>
+          <div class="w3-clear"></div>
+          <h4>Users</h4>
+        </div>
+      </a>
+    </div>
+    <div class="w3-quarter">
+      <a href="{{ url_for('admin.admin_media') }}">
+        <div class="w3-container w3-teal w3-padding-16">
+          <div class="w3-left"><i class="mbri-photos w3-xxxlarge"></i></div>
+          <div class="w3-right">
+            <h3>{{num_media}}</h3>
+          </div>
+          <div class="w3-clear"></div>
+          <h4>Media-Files</h4>
+        </div>
+      </a>
+    </div>
+    <div class="w3-quarter">
+      <div class="w3-container w3-orange w3-text-white w3-padding-16">
+        <div class="w3-left"><i class="mbri-website-theme w3-xxxlarge"></i></div>
+        <div class="w3-right">
+          <h3>2</h3>
+        </div>
+        <div class="w3-clear"></div>
+        <h4>Themes</h4>
+      </div>
+    </div>
+  </div>
+
+  <div class="w3-container">
+    <h5>Recent Users</h5>
+    <ul class="w3-ul w3-card-4 w3-white">
+      <li class="w3-padding-16">
+        <span onclick="this.parentElement.style.display='none'" class="w3-closebtn w3-padding w3-margin-right w3-medium">x</span>
+        <img src="{{ url_for('admin.static', filename='images/avatar2.png') }}" class="w3-left w3-circle w3-margin-right" style="width:35px">
+        <span class="w3-xlarge">{{user}}</span><br>
+      </li>
+    </ul>
+  </div>
+  <hr>
+
+  <div class="w3-container">
+    <h5>Recent News</h5>
+
+    <div class="w3-row">
+      <div class="w3-col m2 text-center">
+        <img class="w3-circle" src="{{ url_for('admin.static', filename='images/avatar2.png') }}" style="width:96px;height:96px">
+      </div>
+      <div class="w3-col m10 w3-container">
+        <h4>Admin <span class="w3-opacity w3-medium">12th of March, 2017, 15:57</span></h4>
+        <p>HelloPress is now v0.4! You can now switch between themes and organize menu.</p>
+      </div>
+    </div>
+  </div>
+  <br>
+
+  <!-- Footer -->
+  <footer class="w3-container w3-padding-16 w3-light-grey">
+    <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
+  </footer>
+{% endblock %}

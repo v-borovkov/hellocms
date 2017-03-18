@@ -1,0 +1,8 @@
+a {
+  text-decoration: none;
+}
+
+[class^="mbri-"], [class*=" mbri-"] {
+    vertical-align: sub;
+    font-size: 24px;
+}

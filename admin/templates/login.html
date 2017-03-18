@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<title>Login</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel=stylesheet type=text/css href="{{ url_for('admin.static', filename='css/w3.css') }}">
+<link rel=stylesheet type=text/css href="{{ url_for('admin.static', filename='css/main.css') }}">
+<body>
+
+<div class="w3-row">
+  <div class="w3-third">&nbsp;</div>
+  <div class="w3-third w3-padding">
+  <div class="w3-container w3-cyan w3-text-white">
+    <h2>HelloPress Login</h2>
+  </div>
+  <form class="w3-container w3-card-12 w3-padding" method="post">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+          <label class="w3-label"><b>Username</b></label>
+          <input type="text" class="w3-input w3-border w3-light-grey" name="username">
+          <label class="w3-label"><b>Password</b></label>
+          <input type="password" class="w3-input w3-border w3-light-grey" name="password">
+          <br>
+          {% if error %}
+          <p class="w3-text-red">{{error}}</p>
+          <br>
+          {% endif %}
+          <input type="submit" class="w3-btn w3-cyan w3-text-white" value="Login">
+  </form>
+</div>
+<div class="w3-third">&nbsp;</div>
+</body>
+</html>

@@ -1,0 +1,43 @@
+{% extends "admin_layout.html" %}
+
+{% block body %}
+
+  <!-- Header -->
+  <header class="w3-container" style="padding-top:22px">
+    <div class="w3-row">
+      <div class="w3-half">
+        <h5><b><i class="mbri-file"></i> Media</b></h5>
+      </div>
+      <div class="w3-half">
+        <form method="post" enctype="multipart/form-data">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+          <p><input type="file" class="w3-btn w3-blue w3-hover-light-blue" name="file">
+          <input type="submit" class="w3-btn w3-blue w3-hover-light-blue" value="Upload"></p>
+        </form>
+      </div>
+    </div>
+  </header>
+
+  <div class="w3-container">
+    <h5>All Media Files</h5>
+    <ul class="w3-ul">
+      {% for title in name %}
+      <li>
+        
+        <a href="{{ url_for('admin.uploaded_file', filename=title)}}">
+          <div class="w3-col w3-card-4 w3-padding w3-white w3-hover-blue" style="width:90%">
+            <span class="w3-xlarge">{{title}}</span>
+          </div>
+        </a>
+        <a href="{{ url_for('admin.admin_media_delete', media_name=title ) }}">
+          <div class="w3-col w3-padding" style="width:10%">
+            <i class="w3-xlarge w3-text-red w3-text-hover-orange mbri-trash"></i>
+          </div>
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+  <hr>
+
+{% endblock %}
