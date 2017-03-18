@@ -7,31 +7,33 @@ This is a new flat-file CMS based on Flask.
 First you need to install [Python](https://www.python.org/downloads/) on your machine and a [pip](https://pip.pypa.io/en/stable/installing/) package manager.
 You also have to install flask microframework:
 
-```python
-  pip install flask
 ```
-
-Now you have to install some dependencies and that's it.
-
-```
-  pip install -r requirements.txt
+  $  pip install flask
 ```
 
 # Run the Project
 
 Download and extract the zip file.
 
-For Windows:
+Go to:
 ```
 $  cd hellocms
+```
+Install required dependencies:
+```
+$  pip install -r requirements.txt
+```
+And run the cms:
+
+For Windows:
+```
 $  python app.py
 ```
 For Linux or Mac:
 ```
-$ cd hellocms
-$ virtualenv venv
-$ . venv/bin/activate
-$ python app.py
+$  virtualenv venv
+$  . venv/bin/activate
+$  python app.py
 ```
 
 # Documentation
