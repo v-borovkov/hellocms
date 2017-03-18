@@ -24,9 +24,17 @@ Now you have to install 4 more dependencies and that's it.
 
 Download and extract the zip file.
 
+For Windows:
 ```python
-  cd hellocms
-  python app.py
+$  cd hellocms
+$  python app.py
+```
+For Linux or Mac:
+```python
+$ cd hellocms
+$ virtualenv venv
+$ . venv/bin/activate
+$ python app.py
 ```
 
 # Documentation
