@@ -39,5 +39,8 @@ $ python app.py
 
 # Documentation
 
-Will follow soon...
+To visit the Admin dashboard, go to "/admin" url.
+Default username and password are both "admin"
+
+More will follow soon...
 
