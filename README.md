@@ -4,20 +4,17 @@ This is a new flat-file CMS based on Flask.
 
 # Getting started
 
-First you need to install Python on your machine and a pip package manager.
+First you need to install [Python](https://www.python.org/downloads/) on your machine and a [pip](https://pip.pypa.io/en/stable/installing/) package manager.
 You also have to install flask microframework:
 
 ```python
   pip install flask
 ```
 
-Now you have to install 4 more dependencies and that's it.
+Now you have to install some dependencies and that's it.
 
 ```
-  pip install passlib
-  pip install slugify
-  pip install pillow
-  pip install WTForms
+  pip install -r requirements.txt
 ```
 
 # Run the Project
