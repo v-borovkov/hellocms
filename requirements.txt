@@ -1,0 +1,4 @@
+passlib>=1.7.1
+awesome-slugify>=1.6.5
+Pillow>=4.0.0
+WTForms>=2.1
