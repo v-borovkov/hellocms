@@ -25,3 +25,11 @@ ul.w3-ul li {
     visibility: hidden;
     margin-top: 43px;
 }
+
+hr{
+  border-top: 1px solid black;
+}
+
+.tile{
+  height: 200px;
+}
