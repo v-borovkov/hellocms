@@ -107,6 +107,7 @@ def admin_pagedetail(page_name):
         title = json_data['title']
         slug = json_data['slug']
         content = json_data['content']
+        file.close()
         if request.method == 'POST':
             json_data['content'] = request.form['content']
             json_data['title'] = request.form['title']

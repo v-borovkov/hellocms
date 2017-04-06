@@ -9,7 +9,7 @@
         <h5><b><i class="mbri-users"></i> Users</b></h5>
       </div>
         <div class="w3-quarter">
-            <a href="{{ url_for('admin.admin_newuser') }}" type="submit" class="w3-btn w3-blue w3-hover-light-blue w3-right"> <span class="mbri-plus"></span> New User</a>
+            <a href="{{ url_for('admin.admin_newuser') }}" type="submit" class="w3-btn w3-border w3-border-dark-grey w3-blue w3-hover-light-blue w3-right"> <span class="mbri-plus"></span> New User</a>
         </div>
     </div>
   </header>
@@ -36,6 +36,5 @@
       {% endfor %}
     </ul>
   </div>
-  <hr>
 
 {% endblock %}
