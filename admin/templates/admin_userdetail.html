@@ -5,14 +5,14 @@
   <!-- Header -->
   <form method="POST">
   <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-  <header class="w3-container" style="padding-top:22px">
+  <header class="w3-container w3-card-4" style="padding-top:22px">
     <div class="w3-row">
       <div class="w3-threequarter">
-        <h5><b><i class="mbri-file"></i> {{username}}</b></h5>
+        <h3><i class="mbri-file"></i><b> {{username}}</b></h3>
       </div>
       <div class="w3-quarter">
-        <input type="submit" class="w3-btn w3-border w3-border-dark-grey w3-green w3-hover-light-green" value="&#xe959; Save"  style="font-weight:600;font-family:'MobiriseIcons' !important;">
-        <a href="{{ url_for('admin.admin_users') }}" class="w3-btn w3-border w3-border-dark-grey w3-red w3-hover-deep-orange" style="font-weight:600;font-family:'MobiriseIcons' !important;">&#xe904 Back</a>
+        <input type="submit" class="w3-btn w3-card-4 w3-round w3-save w3-hover-light-green" value="&#xe959; Save"  style="font-weight:600;font-family:'MobiriseIcons' !important;">
+        <a href="{{ url_for('admin.admin_users') }}" class="w3-btn w3-card-4 w3-round w3-red w3-hover-deep-orange" style="font-weight:600;font-family:'MobiriseIcons' !important;">&#xe904 Back</a>
       </div>
    </div>
   </header>

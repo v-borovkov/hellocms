@@ -33,3 +33,24 @@ hr{
 .tile{
   height: 200px;
 }
+
+header{
+  background-color: #1888ca;
+}
+
+h3{
+  color:white;
+}
+
+h3,b{
+  vertical-align: middle;
+}
+
+.w3-btn{
+  margin-top: 10px;
+}
+
+.w3-save{
+  color: #000!important;
+  background-color: #5fff65!important;  
+}

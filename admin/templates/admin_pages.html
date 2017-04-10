@@ -3,13 +3,13 @@
 {% block body %}
 
   <!-- Header -->
-  <header class="w3-container" style="padding-top:22px">
+  <header class="w3-container w3-card-4" style="padding-top:22px">
     <div class="w3-row">
       <div class="w3-threequarter">
-        <h5><b><i class="mbri-file"></i> Pages</b></h5>
+        <h3><i class="mbri-file"></i><b> Pages</b></h3>
       </div>
       <div class="w3-quarter">
-          <a href="{{ url_for('admin.admin_newpage') }}" type="submit" class="w3-btn w3-border w3-border-dark-grey w3-blue w3-hover-light-blue w3-right"> <span class="mbri-plus"></span> New Page</a>
+          <a href="{{ url_for('admin.admin_newpage') }}" type="submit" class="w3-btn w3-card-4 w3-round w3-blue w3-hover-light-blue w3-right"> <span class="mbri-plus"></span> New Page</a>
       </div>
     </div>
   </header>

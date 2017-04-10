@@ -5,22 +5,22 @@
   <!-- Header -->
   <form method="POST">
   <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-  <header class="w3-container" style="padding-top:22px">
+  <header class="w3-container w3-card-4" style="padding-top:22px">
     <div class="w3-row">
       <div class="w3-threequarter">
-        <h5><b><i class="mbri-file"></i> Menu</b></h5>
+        <h3><i class="mbri-file"></i> <b>Menu</b></h3>
       </div>
       <div class="w3-quarter">
-        <input type="submit" class="w3-btn w3-border w3-border-dark-grey w3-green w3-right w3-hover-light-green" value="&#xe959; Save"  style="font-weight:600;font-family:'MobiriseIcons' !important;">
+        <input type="submit" class="w3-btn w3-green w3-card-4 w3-round w3-save w3-hover-light-green" value="&#xe959; Save"  style="font-weight:600;font-family:'MobiriseIcons' !important;">
       </div>
     </div>
   </header>
 
   <div class="w3-twothird w3-padding">
   <h5>Menu:</h5>
-  <ul class="w3-ul" id="div2" ondrop="drop(event)" ondragover="allowDrop(event)" style="border: 3px dashed black; height:500px">
+  <ul class="w3-ul connectedSortable" id="sortable1" style="border: 3px dashed black; height:500px">
   {% for title in name %}
-  <li draggable="true" ondragstart="drag(event)" id="{{title}}">
+  <li id="{{title}}">
     <div class="w3-col w3-card-4 w3-padding w3-white w3-hover-blue">
         <span class="w3-xlarge">{{title|replace(".json", "")}}</span>
         <input type="hidden" name="title" value="{{ title|replace(".json", "") }}"/>
@@ -35,9 +35,9 @@
 
     <div class="w3-third w3-padding">
       <h5>Avaible Pages:</h5>
-      <ul class="w3-ul" id="div1" ondrop="drop(event)" ondragover="allowDrop(event)">
+      <ul class="w3-ul connectedSortable" id="sortable2">
         {% for title in files %}
-        <li draggable="true" ondragstart="drag(event)" id="{{title}}">
+        <li id="{{title}}">
           <div class="w3-col w3-card-4 w3-padding w3-white w3-hover-blue">
               <span class="w3-xlarge">{{title|replace(".json", "")}}</span>
               <input type="hidden" name="title" value="{{ title|replace(".json", "") }}"/>
@@ -47,32 +47,5 @@
         {% endfor %}
       </ul>
     </div>
-
-
-<script>
-window.allowDrop = function(ev) {
-    ev.preventDefault();
-    if (ev.target.id === "div2"){
-        console.log("ja");
-        ev.dataTransfer.dropEffect = "all";
-    }else{
-        ev.dataTransfer.dropEffect = "none";
-    }
-};
-
-window.drag = function(ev) {
-    ev.dataTransfer.setData("id", ev.target.id);
-};
-
-window.drop = function(ev) {
-    ev.preventDefault();
-    var id = ev.dataTransfer.getData("id");
-
-    var dragged = document.getElementById(id);
-    ev.target.appendChild(dragged);
-    dragged.className += " dropped";
-  }
-</script>
-
 
 {% endblock %}
