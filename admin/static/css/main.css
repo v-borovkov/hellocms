@@ -52,5 +52,7 @@ h3,b{
 
 .w3-save{
   color: #000!important;
-  background-color: #5fff65!important;  
+  background-color: #5fff65!important;
+  padding-top: 7px;
+  padding-bottom: 7px;
 }
