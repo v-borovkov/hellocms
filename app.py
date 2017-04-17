@@ -84,7 +84,8 @@ def render_content(page_name):
     file = open("content/%s.json" % page_name, "r")
     json_data = json.loads(file.read())
     content = json_data['content']
-    return render_template('%s/temp.html' % theme, theme = theme, menu = menu, title = page_name, content = content)
+    widgets = json_data['widgets']
+    return render_template('%s/temp.html' % theme, theme = theme, menu = menu, title = page_name, content = content, widgets = widgets)
 
 @app.errorhandler(404)
 def page_not_found(error):

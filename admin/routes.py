@@ -105,11 +105,16 @@ def admin_pagedetail(page_name):
         file = open("content/%s.json" % page_name, "r+")
         json_data = json.loads(file.read())
         title = json_data['title']
+        widgets = json_data['widgets']
         slug = json_data['slug']
         content = json_data['content']
         file.close()
+        #load widget too
+        path = 'widgets'
+        widgetfiles = [f for f in os.listdir(path)if os.path.isfile(os.path.join(path, f))]
         if request.method == 'POST':
             json_data['content'] = request.form['content']
+            json_data['widgets'] = request.form.getlist('widgets')
             json_data['title'] = request.form['title']
             slugpage = slugify(request.form['title'])
             json_data['slug'] = slugpage
@@ -117,7 +122,7 @@ def admin_pagedetail(page_name):
             file = open("content/%s.json" % slugpage, "w+")
             file.write(json.dumps(json_data))
             return redirect(url_for('admin.admin_pagedetail', page_name = slugpage))
-        return render_template('admin_pagedetail.html', page_name = page_name, title = title, slug = slug, content = content, user = session['username'])
+        return render_template('admin_pagedetail.html', page_name = page_name, title = title, slug = slug, content = content, widgets = widgets, widgetfiles = widgetfiles, user = session['username'])
     return redirect(url_for('admin.login'))
 
 @admin_blueprint.route('/pages/delete/<string:page_name>/', methods=['GET', 'POST'])
@@ -204,12 +209,39 @@ def admin_media_delete(media_name):
     return redirect(url_for('admin.login'))
 
 """
-Plugins
+Templates
 """
 
 """
-Themes
+Widgets
 """
+@admin_blueprint.route('/widgets')
+def admin_widgets():
+    if 'username' in session:
+        path = 'widgets'
+        files = [f for f in os.listdir(path)if os.path.isfile(os.path.join(path, f))]
+        return render_template('admin_widgets.html', name = files, user = session['username'])
+    return redirect(url_for('admin.login'))
+
+@admin_blueprint.route('/widgets/<string:widget_name>/', methods=['GET', 'POST'])
+def admin_widgetdetail(widget_name):
+    if 'username' in session:
+        if not os.path.isfile("widgets/%s.json" % widget_name):
+            abort(404)
+        file = open("widgets/%s.json" % widget_name, "r+")
+        json_data = json.loads(file.read())
+        title = json_data['title']
+        code = json_data['code']
+        file.close()
+        if request.method == 'POST':
+            json_data['code'] = request.form['code']
+            json_data['title'] = request.form['title']
+            json_data['meta'] = json.dumps({"title":"","subtitle":"","background-color":"","text_color":"","button_name":"","button_link":""})
+            file = open("widgets/%s.json" % widget_name, "w+")
+            file.write(json.dumps(json_data) + '\n')
+            return redirect(url_for('admin.admin_widgetdetail', widget_name = widget_name))
+        return render_template('admin_widgetdetail.html', widget_name = widget_name, title = title,  code = code, user = session['username'])
+    return redirect(url_for('admin.login'))
 
 """
 Users

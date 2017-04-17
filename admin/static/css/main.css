@@ -56,3 +56,35 @@ h3,b{
   padding-top: 7px;
   padding-bottom: 7px;
 }
+
+ul.w3-ul li {
+    padding: 0;
+    /*border: 1px solid #a0a0a0;*/
+    margin: 3px 0 3px 0;
+}
+
+ul.w3-ul li:last-child {
+    /*border-bottom: 1px solid #a0a0a0;*/
+}
+
+.ui-sortable-helper{
+  background-color: yellow;
+}
+
+/*#editor {
+    position: absolute;
+    top: 260px;
+    right: 0;
+    bottom: 0;
+    left: 265px;
+    height: 500px;
+    width: 866px;
+}*/
+
+#editor {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}

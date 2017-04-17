@@ -5,11 +5,14 @@
 {% endblock %}
 
 {% block body %}
-<!-- First Grid -->
-<div class="w3-row-padding w3-padding-64 w3-container">
-  <div class="w3-content">
-    <p class="w3-text-grey">{{ content |safe }}</p>
+  <!-- First Grid -->
+  <div class="w3-row-padding w3-padding-64 w3-container">
+    <div class="w3-content">
+      <p class="w3-text-grey">{{ content |safe }}</p>
+    </div>
   </div>
-</div>
+  {% for w in widgets %}
+    {{w|safe }}
+  {% endfor %}
 {% endblock %}
 {% block footer %}{% endblock %}

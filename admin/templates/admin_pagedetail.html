@@ -28,10 +28,26 @@
             <h5>Title</h5>
             <input class="w3-input" type="text" name="title" value="{{title}}">
         </div>
+        <hr>
         <h5>Content</h5>
         <textarea id="content" class="w3-input" name="content" rows="16">
           {{content|safe}}
         </textarea>
+        <ul class="w3-ul connectedSortable" id="sortable1">
+          {% for w in widgets %}
+          <li>
+            <div class="w3-container w3-blue-grey">
+              <span onclick="this.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode)" class="w3-closebtn w3-padding w3-right w3-medium">X</span>
+            </div>
+            <div class="w3-card-2">
+              {{ w | safe }}
+                <input type="text" name="widgets" class='w3-input w3-border' value="{{ w }}"/>
+
+            </div>
+          </li>
+          {% endfor %}
+        </ul>
+        <input type="button" onclick="document.getElementById('id01').style.display='block'" class="w3-btn w3-red" value="add new widget">
       </div>
       <div class="w3-quarter w3-padding">
         <a href="{{ url_for('render_content', page_name=slug|replace('.json', '')) }}" class="w3-btn w3-card-4 w3-round w3-indigo w3-block w3-hover-blue"><span class="mbri-preview"></span> View</a>
@@ -39,10 +55,43 @@
         <div class="w3-card-2 w3-white w3-padding w3-round">
           <h2>Details:</h2>
           <h5>Slug: {{slug}}</h5>
+          <div id="app">
+            [[ message ]]
+          </div>
         </div>
       </div>
     </div>
   </div>
+
+<!--modal-->
+  <div id="id01" class="w3-modal">
+    <div class="w3-modal-content w3-animate-zoom w3-card-4">
+      <header class="w3-container w3-blue">
+        <span onclick="document.getElementById('id01').style.display='none'"
+        class="w3-button w3-red w3-display-topright">&times;</span>
+        <h2>Widgets list</h2>
+      </header>
+      <div class="w3-container w3-padding">
+        <ul class="w3-ul">
+          {% for wi in widgetfiles %}
+          <li>
+            <input type="button" class="w3-btn w3-xlarge w3-blue" id="{{wi|replace(".json", "")}}" onclick="document.getElementById('id01').style.display='none'" value="{{wi|replace(".json", "")}}">
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    var app = new Vue({
+    el: '#app',
+    delimiters: ["[[", "]]"],
+    data: {
+      message: ''
+    }
+  })
+  </script>
 
   </form>
 
