@@ -35,7 +35,7 @@ hr{
 }
 
 header{
-  background-color: #1888ca;
+  background: linear-gradient(to right, #004d71 , #004dff, #00adff);
 }
 
 h3{

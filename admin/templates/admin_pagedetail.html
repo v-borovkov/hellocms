@@ -3,7 +3,7 @@
 {% block body %}
 
   <!-- Header -->
-  <form method="POST" style="margin-top:-2px;">
+  <form method="POST" id="pagedetail" style="margin-top:-2px;">
   <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
   <header class="w3-container w3-card-4" style="padding-top:22px">
     <div class="w3-row">
@@ -30,10 +30,11 @@
         </div>
         <hr>
         <h5>Content</h5>
+          <!--{{header}}-->
         <textarea id="content" class="w3-input" name="content" rows="16">
           {{content|safe}}
         </textarea>
-        <ul class="w3-ul connectedSortable" id="sortable1">
+        <!--<ul class="w3-ul connectedSortable" id="sortable1">
           {% for w in widgets %}
           <li>
             <div class="w3-container w3-blue-grey">
@@ -47,7 +48,7 @@
           </li>
           {% endfor %}
         </ul>
-        <input type="button" onclick="document.getElementById('id01').style.display='block'" class="w3-btn w3-red" value="add new widget">
+        <input type="button" onclick="document.getElementById('id01').style.display='block'" class="w3-btn w3-red" value="add new widget">-->
       </div>
       <div class="w3-quarter w3-padding">
         <a href="{{ url_for('render_content', page_name=slug|replace('.json', '')) }}" class="w3-btn w3-card-4 w3-round w3-indigo w3-block w3-hover-blue"><span class="mbri-preview"></span> View</a>
@@ -55,9 +56,13 @@
         <div class="w3-card-2 w3-white w3-padding w3-round">
           <h2>Details:</h2>
           <h5>Slug: {{slug}}</h5>
-          <div id="app">
-            [[ message ]]
-          </div>
+          <h5>Template:</h5>
+          <select class="w3-select" name="template" form="pagedetail">
+            <option disabled selected="selected" value="{{current_theme}}">{{current_theme}}</option>
+            {% for title in themes %}
+            <option value="{{title}}">{{title}}</option>
+            {% endfor %}
+          </select>
         </div>
       </div>
     </div>
@@ -82,16 +87,6 @@
       </div>
     </div>
   </div>
-
-  <script>
-    var app = new Vue({
-    el: '#app',
-    delimiters: ["[[", "]]"],
-    data: {
-      message: ''
-    }
-  })
-  </script>
 
   </form>
 

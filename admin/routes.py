@@ -110,6 +110,9 @@ def admin_pagedetail(page_name):
         content = json_data['content']
         file.close()
         #load widget too
+        bannerfile = open("widgets/banner.html", "r+")
+        header = bannerfile.read()
+        bannerfile.close()
         path = 'widgets'
         widgetfiles = [f for f in os.listdir(path)if os.path.isfile(os.path.join(path, f))]
         if request.method == 'POST':
@@ -122,7 +125,7 @@ def admin_pagedetail(page_name):
             file = open("content/%s.json" % slugpage, "w+")
             file.write(json.dumps(json_data))
             return redirect(url_for('admin.admin_pagedetail', page_name = slugpage))
-        return render_template('admin_pagedetail.html', page_name = page_name, title = title, slug = slug, content = content, widgets = widgets, widgetfiles = widgetfiles, user = session['username'])
+        return render_template('admin_pagedetail.html', page_name = page_name, title = title, slug = slug, content = content, header = header, widgets = widgets, widgetfiles = widgetfiles, user = session['username'])
     return redirect(url_for('admin.login'))
 
 @admin_blueprint.route('/pages/delete/<string:page_name>/', methods=['GET', 'POST'])
@@ -211,10 +214,43 @@ def admin_media_delete(media_name):
 """
 Templates
 """
+@admin_blueprint.route('/templates')
+def admin_templates():
+    if 'username' in session:
+        config_file = open("config.json", "r")
+        config_data = json.loads(config_file.read())
+        THEME = config_data['theme']
+        config_file.close()
+        path = 'themes/%s' % THEME
+        files = [f for f in os.listdir(path)if os.path.isfile(os.path.join(path, f))]
+        return render_template('admin_templates.html', name = files, user = session['username'])
+    return redirect(url_for('admin.login'))
+
+@admin_blueprint.route('/templates/<string:template_name>/', methods=['GET', 'POST'])
+def admin_templatedetail(template_name):
+    if 'username' in session:
+        config_file = open("config.json", "r")
+        config_data = json.loads(config_file.read())
+        THEME = config_data['theme']
+        config_file.close()
+        path = 'themes/%s' % THEME
+        if not os.path.isfile("%s/%s.html" % (path, template_name)):
+            abort(404)
+        file = open("%s/%s.html" % (path, template_name), "r+")
+        title = template_name
+        code = file.read()
+        file.close()
+        if request.method == 'POST':
+            newcode = request.form['code']
+            file = open("%s/%s.html" % (path, template_name), "w+")
+            file.write(newcode)
+            return redirect(url_for('admin.admin_templatedetail', template_name = template_name))
+        return render_template('admin_templatedetail.html', template_name = template_name, title = title,  code = code, user = session['username'])
+    return redirect(url_for('admin.login'))
 
 """
 Widgets
-"""
+
 @admin_blueprint.route('/widgets')
 def admin_widgets():
     if 'username' in session:
@@ -226,23 +262,20 @@ def admin_widgets():
 @admin_blueprint.route('/widgets/<string:widget_name>/', methods=['GET', 'POST'])
 def admin_widgetdetail(widget_name):
     if 'username' in session:
-        if not os.path.isfile("widgets/%s.json" % widget_name):
+        if not os.path.isfile("widgets/%s.html" % widget_name):
             abort(404)
-        file = open("widgets/%s.json" % widget_name, "r+")
-        json_data = json.loads(file.read())
-        title = json_data['title']
-        code = json_data['code']
+        file = open("widgets/%s.html" % widget_name, "r+")
+        title = widget_name
+        code = file.read()
         file.close()
         if request.method == 'POST':
-            json_data['code'] = request.form['code']
-            json_data['title'] = request.form['title']
-            json_data['meta'] = json.dumps({"title":"","subtitle":"","background-color":"","text_color":"","button_name":"","button_link":""})
-            file = open("widgets/%s.json" % widget_name, "w+")
-            file.write(json.dumps(json_data) + '\n')
+            newcode = request.form['code']
+            file = open("widgets/%s.html" % widget_name, "w+")
+            file.write(newcode)
             return redirect(url_for('admin.admin_widgetdetail', widget_name = widget_name))
         return render_template('admin_widgetdetail.html', widget_name = widget_name, title = title,  code = code, user = session['username'])
     return redirect(url_for('admin.login'))
-
+"""
 """
 Users
 """
