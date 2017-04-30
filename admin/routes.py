@@ -101,23 +101,26 @@ def admin_newpage():
 @admin_blueprint.route('/pages/<string:page_name>/', methods=['GET', 'POST'])
 def admin_pagedetail(page_name):
     if 'username' in session:
-        #find theme with models
+        #find theme
         config_file = open("config.json", "r")
         config_data = json.loads(config_file.read())
         THEME = config_data['theme']
         config_file.close()
-        path = 'themes/%s/Models' % THEME
-        if not os.path.isfile("%s/%s.json" % (path, page_name)):
-            abort(make_response("<h1 style='color:red;'>Model for %s page not found!</h1>" % page_name, 404))
-        model = open("%s/%s.json" % (path, page_name), "r+")
-        json_datastructure = json.loads(model.read(), object_pairs_hook=OrderedDict)
-        fields = json_datastructure.items()
         #find and open page content
         if not os.path.isfile("content/%s.json" % page_name):
             #TODO Modal error step before
             abort(make_response("<h1 style='color:red;'>Content file for %s page not found!</h1>" % page_name, 404))
         file = open("content/%s.json" % page_name, "r+")
         json_data = json.loads(file.read())
+        path = 'themes/%s/Models' % THEME
+        template = json_data['Template']
+        #find models
+        if not os.path.isfile("%s/%s.json" % (path, template)):
+            abort(make_response("<h1 style='color:red;'>Model for %s page not found!</h1>" % page_name, 404))
+        model = open("%s/%s.json" % (path, template), "r+")
+        files = [f for f in os.listdir(path)if os.path.isfile(os.path.join(path, f))]
+        json_datastructure = json.loads(model.read(), object_pairs_hook=OrderedDict)
+        fields = json_datastructure.items()
         data = json_data.items()
         slug = json_data['Slug']
         model.close()
@@ -127,11 +130,12 @@ def admin_pagedetail(page_name):
                 json_data[key] = request.form[key]
             slugpage = slugify(request.form['Title'])
             json_data['Slug'] = slugpage
+            json_data['Template'] = request.form['Template']
             os.rename("content/%s.json" % page_name, "content/%s.json" % slugpage)
             file = open("content/%s.json" % slugpage, "w+")
             file.write(json.dumps(json_data))
             return redirect(url_for('admin.admin_pagedetail', page_name = slugpage))
-        return render_template('admin_pagedetail.html', page_name = page_name, data = data, slug = slug, fields = fields, user = session['username'])
+        return render_template('admin_pagedetail.html', page_name = page_name, data = data, slug = slug, fields = fields, files = files, template = template, user = session['username'])
     return redirect(url_for('admin.login'))
 
 @admin_blueprint.route('/pages/delete/<string:page_name>/', methods=['GET', 'POST'])

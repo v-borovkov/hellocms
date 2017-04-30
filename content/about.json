@@ -1,1 +1,1 @@
-{"Date": "09.03.2017", "Content":"<h2>About page</h2>\r\n<p><br>this is an about page. Really.</p>", "Author": "me", "Title": "about", "Slug": "about"}
+{"Template": "page", "Date": "09.03.2017", "Title": "about", "Slug": "about", "Content": "                                    <h2>About page</h2>\r\n<p><br>this is an about page. Really.</p>\r\n                \r\n                ", "Author": "me"}

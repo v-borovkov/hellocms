@@ -66,10 +66,10 @@
           <h5>Slug: {{slug}}</h5>
           <h5>Published: yes</h5>
           <h5>Template:</h5>
-          <select class="w3-select" name="template" form="pagedetail">
-            <option disabled selected="selected" value="{{current_template}}">{{current_template}}</option>
-            {% for title in templates %}
-            <option value="{{title}}">{{title}}</option>
+          <select class="w3-select" name="Template" form="pagedetail">
+            <option disabled selected="selected" value="{{template}}">{{template}}</option>
+            {% for title in files %}
+            <option value="{{title|replace('.json', '')}}">{{title|replace(".json", "")}}</option>
             {% endfor %}
           </select>
         </div>
