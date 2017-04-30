@@ -72,8 +72,11 @@ def index():
         abort(404)
     file = open("content/%s.json" % STARTPAGE, "r")
     json_data = json.loads(file.read())
-    content = json_data['content']
-    return render_template('%s/home.html' % theme, theme=theme, menu = menu, content = content)
+    fields = json_data.items()
+    content = {}
+    for key, value in fields:
+        content[key] = value
+    return render_template('%s/Templates/home.html' % theme, theme=theme, menu = menu, **content)
 
 @app.route('/<string:page_name>/')
 def render_content(page_name):
@@ -83,14 +86,16 @@ def render_content(page_name):
         abort(404)
     file = open("content/%s.json" % page_name, "r")
     json_data = json.loads(file.read())
-    content = json_data['content']
-    widgets = json_data['widgets']
-    return render_template('%s/temp.html' % theme, theme = theme, menu = menu, title = page_name, content = content, widgets = widgets)
+    fields = json_data.items()
+    content = {}
+    for key, value in fields:
+        content[key] = value
+    return render_template('%s/Templates/page.html' % theme, theme = theme, menu = menu, title = page_name, **content)
 
 @app.errorhandler(404)
 def page_not_found(error):
     theme = updateTheme()
-    return render_template('%s/page_not_found.html' % theme), 404
+    return render_template('%s/Templates/page_not_found.html' % theme), 404
 
 if __name__ == "__main__":
     app.run()

@@ -24,16 +24,24 @@
   <div class="w3-container">
     <div class="w3-row">
       <div class="w3-threequarter">
-        <div class="w3-row">
-            <h5>Title</h5>
-            <input class="w3-input" type="text" name="title" value="{{title}}">
-        </div>
-        <hr>
-        <h5>Content</h5>
-          <!--{{header}}-->
-        <textarea id="content" class="w3-input" name="content" rows="16">
-          {{content|safe}}
-        </textarea>
+        {% for key, value in fields %}
+          {% for k, v in data %}
+            {% if key == k %}
+            {% if value == "text" %}
+                <p>{{key}}</p>
+                <input class="w3-input" type="text" name="{{key}}" value="{{v}}">
+            {% elif value == "textarea" %}
+                <p>{{key}}</p>
+                <textarea id="content" class="w3-input" name="{{key}}" rows="16">
+                  {{v|safe}}
+                </textarea>
+            {% else %}
+                undefined model type...
+            {% endif %}
+            {% endif %}
+          {% endfor %}
+        {% endfor %}
+
         <!--<ul class="w3-ul connectedSortable" id="sortable1">
           {% for w in widgets %}
           <li>
@@ -56,10 +64,11 @@
         <div class="w3-card-2 w3-white w3-padding w3-round">
           <h2>Details:</h2>
           <h5>Slug: {{slug}}</h5>
+          <h5>Published: yes</h5>
           <h5>Template:</h5>
           <select class="w3-select" name="template" form="pagedetail">
-            <option disabled selected="selected" value="{{current_theme}}">{{current_theme}}</option>
-            {% for title in themes %}
+            <option disabled selected="selected" value="{{current_template}}">{{current_template}}</option>
+            {% for title in templates %}
             <option value="{{title}}">{{title}}</option>
             {% endfor %}
           </select>

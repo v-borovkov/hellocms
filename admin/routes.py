@@ -14,7 +14,7 @@
    limitations under the License.
 '''
 
-from flask import Blueprint, render_template, abort, url_for, session, redirect, request
+from flask import Blueprint, render_template, abort, url_for, session, redirect, request, make_response
 import os.path
 import sys
 import json
@@ -23,6 +23,7 @@ from slugify import slugify
 from werkzeug.utils import secure_filename
 from flask import send_from_directory
 from PIL import Image
+from collections import OrderedDict
 
 admin_blueprint = Blueprint('admin', __name__,
                             template_folder='templates',
@@ -100,32 +101,37 @@ def admin_newpage():
 @admin_blueprint.route('/pages/<string:page_name>/', methods=['GET', 'POST'])
 def admin_pagedetail(page_name):
     if 'username' in session:
+        #find theme with models
+        config_file = open("config.json", "r")
+        config_data = json.loads(config_file.read())
+        THEME = config_data['theme']
+        config_file.close()
+        path = 'themes/%s/Models' % THEME
+        if not os.path.isfile("%s/%s.json" % (path, page_name)):
+            abort(make_response("<h1 style='color:red;'>Model for %s page not found!</h1>" % page_name, 404))
+        model = open("%s/%s.json" % (path, page_name), "r+")
+        json_datastructure = json.loads(model.read(), object_pairs_hook=OrderedDict)
+        fields = json_datastructure.items()
+        #find and open page content
         if not os.path.isfile("content/%s.json" % page_name):
-            abort(404)
+            #TODO Modal error step before
+            abort(make_response("<h1 style='color:red;'>Content file for %s page not found!</h1>" % page_name, 404))
         file = open("content/%s.json" % page_name, "r+")
         json_data = json.loads(file.read())
-        title = json_data['title']
-        widgets = json_data['widgets']
-        slug = json_data['slug']
-        content = json_data['content']
+        data = json_data.items()
+        slug = json_data['Slug']
+        model.close()
         file.close()
-        #load widget too
-        bannerfile = open("widgets/banner.html", "r+")
-        header = bannerfile.read()
-        bannerfile.close()
-        path = 'widgets'
-        widgetfiles = [f for f in os.listdir(path)if os.path.isfile(os.path.join(path, f))]
         if request.method == 'POST':
-            json_data['content'] = request.form['content']
-            json_data['widgets'] = request.form.getlist('widgets')
-            json_data['title'] = request.form['title']
-            slugpage = slugify(request.form['title'])
-            json_data['slug'] = slugpage
+            for key, value in fields:
+                json_data[key] = request.form[key]
+            slugpage = slugify(request.form['Title'])
+            json_data['Slug'] = slugpage
             os.rename("content/%s.json" % page_name, "content/%s.json" % slugpage)
             file = open("content/%s.json" % slugpage, "w+")
             file.write(json.dumps(json_data))
             return redirect(url_for('admin.admin_pagedetail', page_name = slugpage))
-        return render_template('admin_pagedetail.html', page_name = page_name, title = title, slug = slug, content = content, header = header, widgets = widgets, widgetfiles = widgetfiles, user = session['username'])
+        return render_template('admin_pagedetail.html', page_name = page_name, data = data, slug = slug, fields = fields, user = session['username'])
     return redirect(url_for('admin.login'))
 
 @admin_blueprint.route('/pages/delete/<string:page_name>/', methods=['GET', 'POST'])
@@ -221,7 +227,7 @@ def admin_templates():
         config_data = json.loads(config_file.read())
         THEME = config_data['theme']
         config_file.close()
-        path = 'themes/%s' % THEME
+        path = 'themes/%s/Templates' % THEME
         files = [f for f in os.listdir(path)if os.path.isfile(os.path.join(path, f))]
         return render_template('admin_templates.html', name = files, user = session['username'])
     return redirect(url_for('admin.login'))
@@ -233,7 +239,7 @@ def admin_templatedetail(template_name):
         config_data = json.loads(config_file.read())
         THEME = config_data['theme']
         config_file.close()
-        path = 'themes/%s' % THEME
+        path = 'themes/%s/Templates' % THEME
         if not os.path.isfile("%s/%s.html" % (path, template_name)):
             abort(404)
         file = open("%s/%s.html" % (path, template_name), "r+")
