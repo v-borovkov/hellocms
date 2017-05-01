@@ -1,6 +1,6 @@
-# Welcome to HelloCMS v0.4
+# Welcome to HelloCMS v0.4.5
 
-![hello](https://cloud.githubusercontent.com/assets/26502453/24767497/6da93042-1aff-11e7-9b96-bc3a01b49eab.JPG)
+![hellocms141](https://cloud.githubusercontent.com/assets/26502453/25579525/fa8bad14-2e78-11e7-90ef-c90a965172f0.JPG)
 
 This is a new flat-file CMS based on Flask and w3.css.
 
