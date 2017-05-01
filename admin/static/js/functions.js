@@ -42,6 +42,15 @@ $(document).ready(function(){
       overlayBg.style.display = "none";
   }
 
+  var editor = ace.edit("editor");
+  editor.setTheme("ace/theme/monokai");
+  editor.getSession().setMode("ace/mode/html");
+
+  var input = $('textarea#area');
+  editor.getSession().on("change", function () {
+      input.val(editor.getSession().getValue());
+  });
+
 
 
   $( function() {
@@ -76,13 +85,4 @@ $(document).ready(function(){
           // If you do not return anything, you need manage yourself the closure of the modal box
       }
   });
-
-  var widget = new Vue({
-  el: '#widget',
-  delimiters: ["[[", "]]"],
-  data: {
-    backgroundcolor: "red"
-  }
-})
-
 });

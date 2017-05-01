@@ -93,7 +93,7 @@ def admin_newpage():
         if request.method == 'POST':
             page_name = request.form['title']
             file = open("content/%s.json" % page_name, "a")
-            file.write(json.dumps({"author": "", "title": "%s" % page_name, "content": "", "widgets": [], "date": "", "slug": ""}))
+            file.write(json.dumps({"Author": "", "Title": "%s" % page_name, "Content": "", "Date": "", "Slug": ""}))
             return redirect(url_for('admin.admin_pages'))
         return render_template('admin_newpage.html', user = session['username'])
     return redirect(url_for('admin.login'))
@@ -202,7 +202,7 @@ def admin_media():
                     thumb.save("static/media/thumb/%s" % filename)
                 return redirect(url_for('admin.uploaded_file',
                                         filename=filename))
-        return render_template('admin_media.html',  name = files, user = session['username'])
+        return render_template('admin_media.html', name = files, user = session['username'])
     return redirect(url_for('admin.login'))
 
 @admin_blueprint.route('/uploads/<filename>')
@@ -251,9 +251,10 @@ def admin_templatedetail(template_name):
         code = file.read()
         file.close()
         if request.method == 'POST':
-            newcode = request.form['code']
             file = open("%s/%s.html" % (path, template_name), "w+")
-            file.write(newcode)
+            code = request.form['code']
+            code = code.replace("\r", "")
+            file.write(code)
             return redirect(url_for('admin.admin_templatedetail', template_name = template_name))
         return render_template('admin_templatedetail.html', template_name = template_name, title = title,  code = code, user = session['username'])
     return redirect(url_for('admin.login'))

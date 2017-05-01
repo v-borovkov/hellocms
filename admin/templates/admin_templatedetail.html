@@ -29,21 +29,9 @@
     <h5>Code</h5>
     <div style="position:relative;height:500px;">
       <div id="editor">{{code}}</div>
-      <textarea name="code" style="display: none;">{{code}}</textarea>
+      <textarea id="area" name="code" style="display: none;">{{code}}</textarea>
     </div>
   </div>
   </form>
-  <script>
-  $(document).ready(function(){
-    var editor = ace.edit("editor");
-    editor.setTheme("ace/theme/monokai");
-    editor.getSession().setMode("ace/mode/html");
-
-    var input = $('input[name="code"]');
-    editor.getSession().on("change", function () {
-        input.val(editor.getSession().getValue());
-    });
-  });
-  </script>
 
 {% endblock %}

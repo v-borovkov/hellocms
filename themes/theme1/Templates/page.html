@@ -3,17 +3,15 @@
 {% block title %}
 {{ title }}
 {% endblock %}
-
 {% block body %}
   <div class="w3-row-padding w3-padding-64 w3-container">
     <div class="w3-content">
-        <h1>{{Title}}</h1>
+        <h2>{{Title}}</h2>
+        
         <p class="w3-text-grey">{{ Content |safe }}</p>
         <h6>{{Date}}, {{Author}}</h6>
     </div>
   </div>
-  {% for w in widgets %}
-    {{w|safe }}
-  {% endfor %}
 {% endblock %}
+
 {% block footer %}{% endblock %}

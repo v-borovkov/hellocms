@@ -7,26 +7,23 @@
 <link rel=stylesheet type=text/css href="{{ url_for('admin.static', filename='css/main.css') }}">
 <body>
 
-<div class="w3-row">
-  <div class="w3-third">&nbsp;</div>
-  <div class="w3-third w3-padding">
-  <div class="w3-container w3-cyan w3-text-white">
+<div class="centerscreen">
+  <div class="w3-container w3-text-white" style="background: linear-gradient(to right, #004d71 , #004dff, #00adff);">
     <h2>HelloCMS Login</h2>
   </div>
-  <form class="w3-container w3-card-12 w3-padding" method="post">
+  <form class="w3-container w3-card-4 w3-padding" method="post">
           <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-          <label class="w3-label"><b>Username</b></label>
+          <label class="w3-label" style="color: #004d71;"><b>Username</b></label>
           <input type="text" class="w3-input w3-border w3-light-grey" name="username">
-          <label class="w3-label"><b>Password</b></label>
+          <label class="w3-label" style="color: #004d71;"><b>Password</b></label>
           <input type="password" class="w3-input w3-border w3-light-grey" name="password">
           <br>
           {% if error %}
           <p class="w3-text-red">{{error}}</p>
           <br>
           {% endif %}
-          <input type="submit" class="w3-btn w3-cyan w3-text-white" value="Login">
+          <input type="submit" class="w3-btn w3-card w3-round w3-indigo w3-hover-blue w3-large" value="Login">
   </form>
 </div>
-<div class="w3-third">&nbsp;</div>
 </body>
 </html>

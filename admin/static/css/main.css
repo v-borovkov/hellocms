@@ -88,3 +88,14 @@ ul.w3-ul li:last-child {
     bottom: 0;
     left: 0;
 }
+
+.centerscreen{
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  max-width: 500px;
+  max-height: 400px;
+}
