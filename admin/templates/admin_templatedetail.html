@@ -1,0 +1,37 @@
+{% extends "admin_layout.html" %}
+
+{% block body %}
+
+  <!-- Header -->
+  <form method="POST" style="margin-top:-2px;">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+  <header class="w3-container w3-card-4" style="padding-top:22px">
+    <div class="w3-row">
+      <div class="w3-threequarter">
+        <h3><i class="mbri-file"></i><b> {{title}}</b></h3>
+      </div>
+      <div class="w3-quarter">
+          <div class="w3-half w3-padding">
+            <input type="submit" class="w3-btn w3-card-4 w3-round w3-block w3-save w3-hover-light-green" value="&#xe959; Save"  style="font-weight:600;font-family:'MobiriseIcons' !important;">
+          </div>
+          <div class="w3-half w3-padding">
+            <a href="{{ url_for('admin.admin_templates') }}" class="w3-btn w3-block w3-card-4 w3-round w3-red w3-hover-deep-orange" ><span class="mbri-arrow-prev"></span> Back</a>
+          </div>
+      </div>
+   </div>
+  </header>
+
+  <div class="w3-container">
+    <div class="w3-row">
+        <h5>Title</h5>
+        <input class="w3-input" type="text" name="title" value="{{title}}">
+    </div>
+    <h5>Code</h5>
+    <div style="position:relative;height:500px;">
+      <div id="editor">{{code}}</div>
+      <textarea id="area" name="code" style="display: none;">{{code}}</textarea>
+    </div>
+  </div>
+  </form>
+
+{% endblock %}

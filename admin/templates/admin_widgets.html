@@ -6,23 +6,22 @@
   <header class="w3-container w3-card-4" style="padding-top:22px">
     <div class="w3-row">
       <div class="w3-threequarter">
-        <h3><i class="mbri-file"></i><b> Pages</b></h3>
+        <h3><i class="mbri-file"></i><b> Widgets</b></h3>
       </div>
       <div class="w3-quarter">
-          <a href="{{ url_for('admin.admin_newpage') }}" type="submit" class="w3-btn w3-card-4 w3-white w3-border w3-border-blue w3-text-blue w3-hover-blue w3-round w3-right"> <span class="mbri-plus"></span> New Page</a>
+          <a href="{{ url_for('admin.admin_newpage') }}" type="submit" class="w3-btn w3-card-4 w3-round w3-blue w3-hover-light-blue w3-right"> <span class="mbri-plus"></span> New Page</a>
       </div>
     </div>
   </header>
 
   <div class="w3-container">
-    <h5>All Pages</h5>
+    <h5>All Widgets</h5>
     <ul class="w3-ul">
       {% for title in name %}
       <li>
-        <a href="{{ url_for('admin.admin_pagedetail', page_name=title|replace('.json', '') ) }}">
+        <a href="{{ url_for('admin.admin_widgetdetail', widget_name=title|replace('.json', '') ) }}">
           <div class="w3-col w3-card-4 w3-padding w3-white w3-hover-blue" style="width:90%">
             <span class="w3-xlarge">{{title|replace(".json", "")}}</span>
-            <span class="w3-xlarge">{{date}}</span><br>
           </div>
         </a>
         <a href="{{ url_for('admin.admin_pages_delete', page_name=title|replace('.json', '') ) }}">

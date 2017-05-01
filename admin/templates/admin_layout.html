@@ -8,34 +8,26 @@
 <link rel=stylesheet type=text/css href="{{ url_for('admin.static', filename='css/jquery-ui.min.css') }}">
 <link rel="stylesheet" type=text/css href="{{ url_for('admin.static', filename='css/style.css') }}">
 <link rel="stylesheet" type=text/css href="{{ url_for('admin.static', filename='js/Trumbowyg/dist/ui/trumbowyg.min.css') }}">
+<script src="{{ url_for('admin.static', filename='js/jquery-3.1.1.min.js') }}"></script>
 <body class="w3-light-grey">
 
-<!-- Top container -->
-<div class="w3-container w3-top w3-black w3-large w3-padding" style="z-index:4">
-  <button class="w3-button w3-hide-large w3-padding-0 w3-black w3-hover-none w3-hover-text-light-grey" onclick="w3_open();"><i class="fa fa-bars"></i>  Menu</button>
-  <span class="w3-left"><b><i>HelloCMS</i></b></span>
-  <span class="w3-right w3-hover-text-blue"><a href="{{ url_for('admin.logout') }}"><i class="mbri-logout"></i>&nbsp;Logout</a></span>
-</div>
 
 <!-- Sidenav/menu -->
-<nav class="w3-sidenav w3-collapse w3-text-white" style="background-color:#212121; z-index:3;width:250px;font-size:16px;top: 43px;" id="mySidenav"><br>
-  <div class="w3-container w3-row">
-    <div class="w3-col s3">
-      <img src="{{ url_for('admin.static', filename='images/avatar2.png') }}" class="w3-circle w3-margin-right" style="width:46px;margin-top:-10px;">
-    </div>
-    <div class="w3-col s9">
-      <span>Welcome, <strong>{{user}}</strong></span>
-    </div>
+<nav class="w3-sidenav w3-collapse w3-text-white" style="background-color:#212121; z-index:3;width:250px;font-size:16px;top:0;" id="mySidenav"><br>
+  <div class="w3-container w3-center">
+    <img src="{{ url_for('admin.static', filename='images/logo.png') }}" height="36px">
   </div>
   <hr>
   <a href="{{ url_for('admin.admin_dash') }}" class="w3-padding {% if request.path == '/admin/' %}w3-blue{% endif %}"><i class="mbri-desktop"></i>  Dashboard</a>
   <a href="{{ url_for('admin.admin_pages') }}" class="w3-padding {% if request.path == '/admin/pages' %}w3-blue{% endif %}"><i class="mbri-file"></i>  Pages</a>
   <a href="{{ url_for('admin.admin_menu') }}" class="w3-padding {% if request.path == '/admin/menu' %}w3-blue{% endif %}"><i class="mbri-sites"></i>  Menu</a>
   <a href="{{ url_for('admin.admin_media') }}" class="w3-padding {% if request.path == '/admin/media' %}w3-blue{% endif %}"><i class="mbri-photos"></i>  Media</a>
-  <a href="#" class="w3-padding w3-text-dark-grey w3-hover-blue-grey w3-hover-text-dark-grey"><i class="mbri-website-theme"></i>  Templates</a>
-  <a href="#" class="w3-padding w3-text-dark-grey w3-hover-blue-grey w3-hover-text-dark-grey"><i class="mbri-extension"></i>  Widgets</a>
+  <a href="{{ url_for('admin.admin_templates') }}" class="w3-padding {% if request.path == '/admin/templates' %}w3-blue{% endif %}"><i class="mbri-website-theme"></i>  Templates</a>
+  <!--<a href="#"><i class="mbri-extension"></i>  Widgets</a>-->
   <a href="{{ url_for('admin.admin_users') }}" class="w3-padding {% if request.path == '/admin/users' %}w3-blue{% endif %}"><i class="mbri-users"></i>  Users</a>
-  <a href="{{ url_for('admin.admin_settings') }}" class="w3-padding"><i class="mbri-setting3"></i>  Settings</a><br><br>
+  <a href="{{ url_for('admin.admin_settings') }}" class="w3-padding"><i class="mbri-setting3"></i>  Settings</a>
+  <hr>
+  <a href="{{ url_for('admin.logout') }}"><i class="mbri-logout"></i>&nbsp;Logout</a>
   <a href="#" class="w3-padding-16 w3-hide-large w3-closenav w3-dark-grey w3-hover-black" onclick="w3_close()" title="close menu"><i class="mbri-close"></i>  Close Menu</a>
 </nav>
 
@@ -44,14 +36,14 @@
 <div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
 
 <!-- !PAGE CONTENT! -->
-<div class="w3-main" style="margin-left:250px;margin-top:43px;">
+<div class="w3-main" style="margin-left:250px;margin-top:0;">
 
   {% block body %}{% endblock %}
 
   <!-- End page content -->
 </div>
-<script src="{{ url_for('admin.static', filename='js/jquery-3.1.1.min.js') }}"></script>
 <script src="{{ url_for('admin.static', filename='js/jquery-ui.min.js') }}"></script>
+<script src="{{ url_for('admin.static', filename='js/ace.js') }}"></script>
 <script src="{{ url_for('admin.static', filename='js/functions.js') }}"></script>
 <script>window.jQuery || document.write('<script src="{{ url_for("admin.static", filename="js/jquery-3.1.1.min.js") }}"><\/script>')</script>
 <script src="{{ url_for('admin.static', filename='js/Trumbowyg/dist/trumbowyg.min.js') }}"></script>

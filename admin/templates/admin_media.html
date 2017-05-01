@@ -11,8 +11,8 @@
       <div class="w3-half">
         <form method="post" enctype="multipart/form-data">
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-          <p><input type="file" class="w3-btn w3-card-4 w3-round w3-white w3-blue w3-hover-light-blue" name="file">
-          <input type="submit" class="w3-btn w3-card-4 w3-round w3-white w3-blue w3-hover-light-blue" value="Upload"></p>
+          <input type="file" class="w3-btn w3-card-4 w3-round w3-white w3-blue w3-hover-light-blue" name="file">
+          <input type="submit" class="w3-btn w3-card-4 w3-round w3-white w3-blue w3-hover-light-blue" value="Upload">
         </form>
       </div>
     </div>
@@ -26,12 +26,13 @@
 
         <a href="{{ url_for('admin.uploaded_file', filename=title)}}">
           <div class="w3-col w3-card-4 w3-padding w3-white w3-hover-blue" style="width:90%">
-            <span class="w3-xlarge">{{title}}</span>
+            <img src="{{ url_for('admin.static', filename='../../static/media/thumb/%s' % title) }}" width="50px">
+            <span class="w3-xlarge" style="top: -10px;position: relative;">{{title}}</span>
           </div>
         </a>
         <a href="{{ url_for('admin.admin_media_delete', media_name=title ) }}">
           <div class="w3-col w3-padding" style="width:10%">
-            <i class="w3-xlarge w3-text-red w3-text-hover-orange mbri-trash"></i>
+            <i class="w3-xlarge w3-text-red w3-text-hover-orange mbri-trash" style="top: 15px;position: relative;"></i>
           </div>
         </a>
       </li>

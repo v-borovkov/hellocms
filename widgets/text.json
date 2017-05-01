@@ -1,0 +1,1 @@
+{"title": "text", "meta": "{\"button_link\": \"\", \"button_name\": \"\", \"text_color\": \"\", \"title\": \"\", \"background-color\": \"\", \"subtitle\": \"\"}", "code": "<textarea id=\"content\" class=\"w3-input\" name=\"content\" rows=\"16\">          {{content|safe}}</textarea>"}

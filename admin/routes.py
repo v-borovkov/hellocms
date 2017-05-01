@@ -14,7 +14,7 @@
    limitations under the License.
 '''
 
-from flask import Blueprint, render_template, abort, url_for, session, redirect, request
+from flask import Blueprint, render_template, abort, url_for, session, redirect, request, make_response
 import os.path
 import sys
 import json
@@ -23,6 +23,7 @@ from slugify import slugify
 from werkzeug.utils import secure_filename
 from flask import send_from_directory
 from PIL import Image
+from collections import OrderedDict
 
 admin_blueprint = Blueprint('admin', __name__,
                             template_folder='templates',
@@ -92,7 +93,7 @@ def admin_newpage():
         if request.method == 'POST':
             page_name = request.form['title']
             file = open("content/%s.json" % page_name, "a")
-            file.write(json.dumps({"author": "", "title": "%s" % page_name, "content": "", "widgets": [], "date": "", "slug": ""}))
+            file.write(json.dumps({"Author": "", "Title": "%s" % page_name, "Content": "", "Date": "", "Slug": ""}))
             return redirect(url_for('admin.admin_pages'))
         return render_template('admin_newpage.html', user = session['username'])
     return redirect(url_for('admin.login'))
@@ -100,24 +101,41 @@ def admin_newpage():
 @admin_blueprint.route('/pages/<string:page_name>/', methods=['GET', 'POST'])
 def admin_pagedetail(page_name):
     if 'username' in session:
+        #find theme
+        config_file = open("config.json", "r")
+        config_data = json.loads(config_file.read())
+        THEME = config_data['theme']
+        config_file.close()
+        #find and open page content
         if not os.path.isfile("content/%s.json" % page_name):
-            abort(404)
+            #TODO Modal error step before
+            abort(make_response("<h1 style='color:red;'>Content file for %s page not found!</h1>" % page_name, 404))
         file = open("content/%s.json" % page_name, "r+")
         json_data = json.loads(file.read())
-        title = json_data['title']
-        slug = json_data['slug']
-        content = json_data['content']
+        path = 'themes/%s/Models' % THEME
+        template = json_data['Template']
+        #find models
+        if not os.path.isfile("%s/%s.json" % (path, template)):
+            abort(make_response("<h1 style='color:red;'>Model for %s page not found!</h1>" % page_name, 404))
+        model = open("%s/%s.json" % (path, template), "r+")
+        files = [f for f in os.listdir(path)if os.path.isfile(os.path.join(path, f))]
+        json_datastructure = json.loads(model.read(), object_pairs_hook=OrderedDict)
+        fields = json_datastructure.items()
+        data = json_data.items()
+        slug = json_data['Slug']
+        model.close()
         file.close()
         if request.method == 'POST':
-            json_data['content'] = request.form['content']
-            json_data['title'] = request.form['title']
-            slugpage = slugify(request.form['title'])
-            json_data['slug'] = slugpage
+            for key, value in fields:
+                json_data[key] = request.form[key]
+            slugpage = slugify(request.form['Title'])
+            json_data['Slug'] = slugpage
+            json_data['Template'] = request.form['Template']
             os.rename("content/%s.json" % page_name, "content/%s.json" % slugpage)
             file = open("content/%s.json" % slugpage, "w+")
             file.write(json.dumps(json_data))
             return redirect(url_for('admin.admin_pagedetail', page_name = slugpage))
-        return render_template('admin_pagedetail.html', page_name = page_name, title = title, slug = slug, content = content, user = session['username'])
+        return render_template('admin_pagedetail.html', page_name = page_name, data = data, slug = slug, fields = fields, files = files, template = template, user = session['username'])
     return redirect(url_for('admin.login'))
 
 @admin_blueprint.route('/pages/delete/<string:page_name>/', methods=['GET', 'POST'])
@@ -184,7 +202,7 @@ def admin_media():
                     thumb.save("static/media/thumb/%s" % filename)
                 return redirect(url_for('admin.uploaded_file',
                                         filename=filename))
-        return render_template('admin_media.html',  name = files, user = session['username'])
+        return render_template('admin_media.html', name = files, user = session['username'])
     return redirect(url_for('admin.login'))
 
 @admin_blueprint.route('/uploads/<filename>')
@@ -204,13 +222,71 @@ def admin_media_delete(media_name):
     return redirect(url_for('admin.login'))
 
 """
-Plugins
+Templates
 """
+@admin_blueprint.route('/templates')
+def admin_templates():
+    if 'username' in session:
+        config_file = open("config.json", "r")
+        config_data = json.loads(config_file.read())
+        THEME = config_data['theme']
+        config_file.close()
+        path = 'themes/%s/Templates' % THEME
+        files = [f for f in os.listdir(path)if os.path.isfile(os.path.join(path, f))]
+        return render_template('admin_templates.html', name = files, user = session['username'])
+    return redirect(url_for('admin.login'))
+
+@admin_blueprint.route('/templates/<string:template_name>/', methods=['GET', 'POST'])
+def admin_templatedetail(template_name):
+    if 'username' in session:
+        config_file = open("config.json", "r")
+        config_data = json.loads(config_file.read())
+        THEME = config_data['theme']
+        config_file.close()
+        path = 'themes/%s/Templates' % THEME
+        if not os.path.isfile("%s/%s.html" % (path, template_name)):
+            abort(404)
+        file = open("%s/%s.html" % (path, template_name), "r+")
+        title = template_name
+        code = file.read()
+        file.close()
+        if request.method == 'POST':
+            file = open("%s/%s.html" % (path, template_name), "w+")
+            code = request.form['code']
+            code = code.replace("\r", "")
+            file.write(code)
+            return redirect(url_for('admin.admin_templatedetail', template_name = template_name))
+        return render_template('admin_templatedetail.html', template_name = template_name, title = title,  code = code, user = session['username'])
+    return redirect(url_for('admin.login'))
 
 """
-Themes
-"""
+Widgets
 
+@admin_blueprint.route('/widgets')
+def admin_widgets():
+    if 'username' in session:
+        path = 'widgets'
+        files = [f for f in os.listdir(path)if os.path.isfile(os.path.join(path, f))]
+        return render_template('admin_widgets.html', name = files, user = session['username'])
+    return redirect(url_for('admin.login'))
+
+@admin_blueprint.route('/widgets/<string:widget_name>/', methods=['GET', 'POST'])
+def admin_widgetdetail(widget_name):
+    if 'username' in session:
+        if not os.path.isfile("widgets/%s.html" % widget_name):
+            abort(404)
+        file = open("widgets/%s.html" % widget_name, "r+")
+        title = widget_name
+        code = file.read()
+        file.close()
+        if request.method == 'POST':
+            newcode = request.form['code']
+            file = open("widgets/%s.html" % widget_name, "w+")
+            file.write(newcode)
+            return redirect(url_for('admin.admin_widgetdetail', widget_name = widget_name))
+        return render_template('admin_widgetdetail.html', widget_name = widget_name, title = title,  code = code, user = session['username'])
+    return redirect(url_for('admin.login'))
+"""
 """
 Users
 """
